@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>CR Description Generator</title>
+    <title>Teste</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <script src='main.js'></script>
@@ -96,6 +96,39 @@
                 <label for="inputPassword4" class="form-label">Video link</label>
                 <input class="form-control" id="videos">
             </div>
+
+            <b>Baseline information</b>
+            <hr>
+            </hr>
+
+
+            <div class="col-md-3">
+                <label for="inputEmail4" class="form-label">Build Fingerprint</label>
+                <input class="form-control" id="fpBaseline" required>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPassword4" class="form-label">Hw Version</label>
+                <input class="form-control" id="hwBaseline" placeholder="PVT" required>
+            </div>
+
+            <div class="col-md-3">
+                <label for="inputEmail4" class="form-label">AVG</label>
+                <input class="form-control" id="avgBaseline" required>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPassword4" class="form-label">Results</label>
+                <input class="form-control" id="resultsBaseline" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Logs link</label>
+                <input class="form-control" id="logsBaseline" required>
+            </div>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Video link</label>
+                <input class="form-control" id="videosBaseline">
+            </div>
+
         </form>
 
         <button type="submit" id="copy" onclick="myFunction()">Create CR Description</button>

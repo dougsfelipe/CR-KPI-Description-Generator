@@ -21,6 +21,13 @@ function myFunction() {
     let linkLogs  = document.getElementById("logs").value;
     let linkDrive = document.getElementById("videos").value;
 
+    let fpBaseline = document.getElementById("fpBaseline").value;
+    let hwBaseline = document.getElementById("hwBaseline").value;
+    let avgBaseline = document.getElementById("avgBaseline").value;
+    let resultsBaseline = document.getElementById("resultsBaseline").value;
+    let logsBaseline  = document.getElementById("logsBaseline").value;
+    let videosBaseline = document.getElementById("videosBaseline").value;
+
     const btnCopy = document.getElementById("copy");
 
 
@@ -77,8 +84,18 @@ function myFunction() {
     *Videos:* [drive|${linkDrive}]
     *Logs:* [Bug2Go|${linkLogs}]
 
+    ----
+
+    *Baseline Results on R*
+
+    *Fingerprint:* ${fpBaseline}
+    *Hw Version:* ${hwBaseline}
+    *Results* ${resultsBaseline}
+    *AVG:* ${avgBaseline}
+    *Logs:* ${logsBaseline}
+    *Video:* ${videosBaseline}
     
-    
+
     Reviewed by KPI Team
     `;
 
