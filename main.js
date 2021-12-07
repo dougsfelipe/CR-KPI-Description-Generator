@@ -46,9 +46,9 @@ function myFunction() {
     ${appText}
     
 
-    *Test Case:*${tc}
+    *Test Case:* ${tc}
     
-    *Test Plan:*${tp}
+    *Test Plan:* ${tp}
     
 
     ----
