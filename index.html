@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>CR KPI Description Generator</title>
+    <title>CR Description Generator</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <script src='main.js'></script>
@@ -18,7 +18,22 @@
     </nav>
     <div class="cr-generate">
 
+        <div class="col-md-12 justify-content-center">
+            <div class="btn-group" style="justify-content: center;
+            width: 100%;" role="group" aria-label="Basic outlined example">
+                <form action="/index.html">
+                    <button type="submit" class="btn btn-outline-primary" style="background-color: darkcyan; border:2px solid darkcyan;color: white;">KPI CR</button>
+                </form>
+                <form action="/ux.html">
+                    <button type="submit" class="btn btn-outline-primary" style="background-color: white; border:2px solid darkcyan;color: darkcyan">Performance UX CR</button>
+                </form>
 
+                <form action="/obs.html">
+                    <button type="submit" style="background-color: white; border:2px solid darkcyan;color: darkcyan;" class="btn btn-outline-primary">Observation CR</button>
+                </form>
+            </div>
+
+        </div>
 
 
         <br>
@@ -88,12 +103,16 @@
                 <input class="form-control" id="goal" required>
             </div>
 
-            <div class="col-md-6">
-                <label for="inputPassword4" class="form-label">Logs link</label>
+            <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">Bug2Go</label>
                 <input class="form-control" id="logs" required>
             </div>
-            <div class="col-md-6">
-                <label for="inputPassword4" class="form-label">Video link</label>
+            <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">SysteTrace</label>
+                <input class="form-control" id="systrace" required>
+            </div>
+            <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">Video</label>
                 <input class="form-control" id="videos">
             </div>
 
@@ -120,12 +139,16 @@
                 <input class="form-control" id="resultsBaseline" required>
             </div>
 
-            <div class="col-md-6">
-                <label for="inputPassword4" class="form-label">Logs link</label>
+            <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">Bug2Go</label>
                 <input class="form-control" id="logsBaseline" required>
             </div>
-            <div class="col-md-6">
-                <label for="inputPassword4" class="form-label">Video link</label>
+            <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">Systrace Logs</label>
+                <input class="form-control" id="systraceBaseline" required>
+            </div>
+            <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">Video</label>
                 <input class="form-control" id="videosBaseline">
             </div>
 

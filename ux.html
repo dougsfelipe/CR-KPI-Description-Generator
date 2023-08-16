@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>CR Description Generator</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='ux.js'></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-dark">
+        <span class="navbar-brand mb-0 h1" id="navtest">CR Description Generator</span>
+    </nav>
+    <div class="cr-generate">
+
+
+        <div class="col-md-12 justify-content-center">
+            <div class="btn-group" style="justify-content: center;
+            width: 100%;" role="group" aria-label="Basic outlined example">
+                <form action="index.html">
+                    <button type="submit" class="btn btn-outline-primary" style="background-color: white; border:2px solid darkcyan;color: darkcyan;">KPI CR</button>
+                </form>
+                <form action="ux.html">
+                    <button type="submit" class="btn btn-outline-primary" style="background-color: darkcyan; border:2px solid darkcyan;color: white;">Performance UX CR</button>
+                </form>
+
+                <form action="/obs.html">
+                    <button type="submit" style="background-color: white; border:2px solid darkcyan;color: darkcyan;" class="btn btn-outline-primary">Observation CR</button>
+                </form>
+            </div>
+
+
+        <br>
+
+        <b>Reproducing the issue</b>
+        <hr>
+        </hr>
+
+        <form class="row g-3">
+            <div class="col-md-12">
+                <div class="form-check form-check-inline">
+                    <input id="less4" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" >
+                    <label  class="form-check-label" for="inlineRadio1"><=4GB RAM</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input id="more4"  class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" >
+                    <label class="form-check-label" for="inlineRadio2">>4GB RAM</label>
+                  </div>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPassword4" class="form-label">Product</label>
+                <input class="form-control" id="product" required>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPassword4" class="form-label">Tested App</label>
+                <input class="form-control" id="testedapp" placeholder="" required>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPassword4" class="form-label">App Version*</label>
+                <input class="form-control" id="app" placeholder="if applicable">
+            </div>
+            <div class="col-md-3">
+                <label for="inputPassword4" class="form-label">Videos</label>
+                <input class="form-control" id="Svideos" required>
+            </div>
+
+            <b>Test information</b>
+            <hr>
+            </hr>
+
+            <div class="col-md-4">
+                <label for="inputEmail4" class="form-label">Precondition::</label>
+                <textarea class="form-control" id="precondition"></textarea>
+            </div>
+            <div class="col-md-4">
+                <label for="inputEmail4" class="form-label">Test step description:</label>
+                <textarea class="form-control" id="testSteps"></textarea>
+            </div>
+            <div class="col-md-4">
+                <label for="inputEmail4" class="form-label">Test Results:</label>
+                <textarea class="form-control" id="testResults"></textarea>
+            </div>
+
+            <b>Result information on Android S</b>
+            <hr>
+            </hr>
+
+            <div class="col-md-3">
+                <label for="inputEmail4" class="form-label">Results</label>
+                <input class="form-control" id="Sresults" required>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPassword4" class="form-label">AVG</label>
+                <input class="form-control" id="SAVG" required>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPassword4" class="form-label">Bug2Go</label>
+                <input class="form-control" id="Sbug2go" required>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPassword4" class="form-label">Systrace</label>
+                <input class="form-control" id="Ssystrace" required>
+            </div>
+
+            <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">Track ID</label>
+                <input class="form-control" id="Sid" required>
+            </div>
+            <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">HW Version</label>
+                <input class="form-control" id="Shw">
+            </div>
+
+            <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">Build fingerprint</label>
+                <input class="form-control" id="Sfp">
+            </div>
+
+            <b>Result information on Android T</b>
+            <hr>
+            </hr>
+
+            <div class="col-md-3">
+                <label for="inputEmail4" class="form-label">Results</label>
+                <input class="form-control" id="Tresults" required>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPassword4" class="form-label">AVG</label>
+                <input class="form-control" id="TAVG" required>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPassword4" class="form-label">Bug2Go</label>
+                <input class="form-control" id="Tbug2go" required>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPassword4" class="form-label">Systrace</label>
+                <input class="form-control" id="Tsystrace" required>
+            </div>
+
+        
+            <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">Track ID</label>
+                <input class="form-control" id="Tid" required>
+            </div>
+            <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">HW Version</label>
+                <input class="form-control" id="Thw">
+            </div>
+
+            <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">Build fingerprint</label>
+                <input class="form-control" id="Tfp">
+            </div>
+
+
+        </form>
+
+        <button type="submit" id="copy" onclick="myFunction()">Create CR Description</button>
+        <textarea id="result"></textarea>
+    </div>
+</body>
+
+</html>
