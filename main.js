@@ -1,10 +1,10 @@
 function myFunction() {
     // Get the value of the input field with id="numb"
     let x = document.getElementById("fp").value;
-    let fpText = `*Build fingerprint: *${x}`
+    let fpText = `*Build fingerprint:* ${x}`
 
     let y = document.getElementById("hw").value;
-    let hwText = `*Hw Version: *${y}`
+    let hwText = `*Hw Version:* ${y}`
 
     let tp = document.getElementById("testPlan").value;
     let tc = document.getElementById("testCase").value;
@@ -80,7 +80,7 @@ function myFunction() {
     *Logs:* [Bug2Go|${linkLogs}] and [Systrace|${linkSystrace}]
     {panel}
     
-    {panel:title=Baseline Results on S|titleBGColor=#83d0c9}
+    {panel:title=Baseline Results on Previus OS|titleBGColor=#83d0c9}
     *Fingerprint:* ${fpBaseline}
     *Hw Version:* ${hwBaseline}
     *Results* ${resultsBaseline}
