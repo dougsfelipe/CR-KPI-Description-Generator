@@ -37,7 +37,7 @@ function myFunction() {
     let textCR = `{panel:title=Reproducing the issue|titleBGColor=#e6e6ea }
     
     *Build fingerprint:* ${fp}
-    *HW version* ${hw}
+    *HW version:* ${hw}
     ${appText}
     
     
