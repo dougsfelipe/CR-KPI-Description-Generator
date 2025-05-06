@@ -88,14 +88,14 @@ function myFunction() {
 
     
 
-    {panel:title=Android T|titleBGColor=#f4b6c2}
+    {panel:title=Target Android|titleBGColor=#f4b6c2}
     *Build fingerprint:* ${Tfp}
     *HW version:* ${Thw}
     *Track ID:* ${Tid}
     *Logs:* [Bug2gGo|${Tbug2go}] and [Systrace|${Tsystrace}]
     {panel}
     
-    {panel:title=Android S|titleBGColor=#83d0c9}
+    {panel:title=Previous Android|titleBGColor=#83d0c9}
     *Build fingerprint:* ${Sfp}
     *HW version:* ${Shw}
     *Track ID:* ${Sid}
