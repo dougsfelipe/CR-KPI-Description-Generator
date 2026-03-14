@@ -1,168 +1,234 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en" class="dark">
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>CR Description Generator</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='ux.js'></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scenario KPI Generator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for textarea */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        textarea::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
 </head>
-
-<body>
-    <nav class="navbar navbar-light bg-dark">
-        <span class="navbar-brand mb-0 h1" id="navtest">CR Description Generator</span>
+<body class="bg-slate-900 text-slate-200 font-sans min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-slate-800 border-b border-slate-700 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <span class="text-xl font-semibold text-white tracking-wide">CR Description Generator</span>
+            </div>
+        </div>
     </nav>
-    <div class="cr-generate">
 
-
-        <div class="col-md-12 justify-content-center">
-            <div class="btn-group" style="justify-content: center;
-            width: 100%;" role="group" aria-label="Basic outlined example">
-                <form action="https://dougsfelipe.github.io/CR-KPI-Description-Generator/index.html">
-                    <button type="submit" class="btn btn-outline-primary" style="background-color: white; border:2px solid darkcyan;color: darkcyan;">KPI CR</button>
-                </form>
-                <form action="">
-                    <button type="submit" class="btn btn-outline-primary" style="background-color: darkcyan; border:2px solid darkcyan;color: white;">Performance UX CR</button>
-                </form>
-
-                <form action="https://dougsfelipe.github.io/CR-KPI-Description-Generator/obs.html">
-                    <button type="submit" style="background-color: white; border:2px solid darkcyan;color: darkcyan;" class="btn btn-outline-primary">Observation CR</button>
-                </form>
-            </div>
-
-
-        <br>
-
-        <b>Reproducing the issue</b>
-        <hr>
-        </hr>
-
-        <form class="row g-3">
-            <div class="col-md-12">
-                <div class="form-check form-check-inline">
-                    <input id="less4" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" >
-                    <label  class="form-check-label" for="inlineRadio1"><=4GB RAM</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input id="more4"  class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" >
-                    <label class="form-check-label" for="inlineRadio2">>4GB RAM</label>
-                  </div>
-            </div>
-            <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">Product</label>
-                <input class="form-control" id="product" required>
-            </div>
-            <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">Tested App</label>
-                <input class="form-control" id="testedapp" placeholder="" required>
-            </div>
-            <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">App Version*</label>
-                <input class="form-control" id="app" placeholder="if applicable">
-            </div>
-            <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">Videos</label>
-                <input class="form-control" id="Svideos" required>
-            </div>
-
-            <b>Test information</b>
-            <hr>
-            </hr>
-
-            <div class="col-md-4">
-                <label for="inputEmail4" class="form-label">Precondition::</label>
-                <textarea class="form-control" id="precondition"></textarea>
-            </div>
-            <div class="col-md-4">
-                <label for="inputEmail4" class="form-label">Test step description:</label>
-                <textarea class="form-control" id="testSteps"></textarea>
-            </div>
-            <div class="col-md-4">
-                <label for="inputEmail4" class="form-label">Test Results:</label>
-                <textarea class="form-control" id="testResults"></textarea>
-            </div>
-
-            <b>Result information on Previous OS</b>
-            <hr>
-            </hr>
-
-            <div class="col-md-3">
-                <label for="inputEmail4" class="form-label">Results</label>
-                <input class="form-control" id="Sresults" required>
-            </div>
-            <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">AVG</label>
-                <input class="form-control" id="SAVG" required>
-            </div>
-            <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">Bug2Go</label>
-                <input class="form-control" id="Sbug2go" required>
-            </div>
-            <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">Systrace</label>
-                <input class="form-control" id="Ssystrace" required>
-            </div>
-
-            <div class="col-md-4">
-                <label for="inputPassword4" class="form-label">Track ID</label>
-                <input class="form-control" id="Sid" required>
-            </div>
-            <div class="col-md-4">
-                <label for="inputPassword4" class="form-label">HW Version</label>
-                <input class="form-control" id="Shw">
-            </div>
-
-            <div class="col-md-4">
-                <label for="inputPassword4" class="form-label">Build fingerprint</label>
-                <input class="form-control" id="Sfp">
-            </div>
-
-            <b>Result information on Target OS</b>
-            <hr>
-            </hr>
-
-            <div class="col-md-3">
-                <label for="inputEmail4" class="form-label">Results</label>
-                <input class="form-control" id="Tresults" required>
-            </div>
-            <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">AVG</label>
-                <input class="form-control" id="TAVG" required>
-            </div>
-            <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">Bug2Go</label>
-                <input class="form-control" id="Tbug2go" required>
-            </div>
-            <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">Systrace</label>
-                <input class="form-control" id="Tsystrace" required>
-            </div>
-
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-            <div class="col-md-4">
-                <label for="inputPassword4" class="form-label">Track ID</label>
-                <input class="form-control" id="Tid" required>
-            </div>
-            <div class="col-md-4">
-                <label for="inputPassword4" class="form-label">HW Version</label>
-                <input class="form-control" id="Thw">
+        <!-- Navigation Pills -->
+        <div class="flex flex-wrap justify-center gap-4 mb-10">
+            <a href="index.html" class="px-6 py-2 rounded-md font-medium text-slate-400 border border-slate-700 hover:bg-slate-800 hover:text-white transition-colors">KPI CR</a>
+            <a href="#" class="px-6 py-2 rounded-md font-medium text-white bg-blue-600 shadow border border-blue-500 hover:bg-blue-700 transition-colors">Scenario KPI</a>
+            <a href="obs.html" class="px-6 py-2 rounded-md font-medium text-slate-400 border border-slate-700 hover:bg-slate-800 hover:text-white transition-colors">Observation CR</a>
+        </div>
+
+        <form id="cr-form" class="space-y-8 bg-slate-800 p-8 rounded-xl shadow-lg border border-slate-700">
+            
+            <!-- Reproducing the issue -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Reproducing the Issue</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="col-span-1 md:col-span-2 lg:col-span-4 flex flex-wrap items-center gap-6 bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <span class="text-sm font-medium text-slate-300">Device RAM:</span>
+                        <label class="inline-flex items-center cursor-pointer group">
+                            <input type="radio" name="ram" id="less4" class="form-radio text-blue-500 focus:ring-blue-500 bg-slate-800 border-slate-600" checked>
+                            <span class="ml-2 text-sm text-slate-300 group-hover:text-white transition-colors">&lt;= 4GB</span>
+                        </label>
+                        <label class="inline-flex items-center cursor-pointer group">
+                            <input type="radio" name="ram" id="more4" class="form-radio text-blue-500 focus:ring-blue-500 bg-slate-800 border-slate-600">
+                            <span class="ml-2 text-sm text-slate-300 group-hover:text-white transition-colors">&gt; 4GB</span>
+                        </label>
+                    </div>
+
+                    <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                        <label for="product" class="block text-sm font-medium text-slate-400 mb-1">Product</label>
+                        <input type="text" id="product" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                        <label for="testedapp" class="block text-sm font-medium text-slate-400 mb-1">Tested App</label>
+                        <input type="text" id="testedapp" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                        <label for="app" class="block text-sm font-medium text-slate-400 mb-1">App Version <span class="text-slate-500 text-xs">(*if applicable)</span></label>
+                        <input type="text" id="app" placeholder="optional" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                    </div>
+                    <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                        <label for="measureType" class="block text-sm font-medium text-slate-400 mb-1">Measure Type</label>
+                        <select id="measureType" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                            <option value="ms">ms</option>
+                            <option value="FPS">FPS</option>
+                            <option value="Janks">Janks</option>
+                            <option value="MB">MB</option>
+                        </select>
+                    </div>
+
+                    <div class="col-span-1 md:col-span-2 lg:col-span-2">
+                        <label for="previousOS" class="block text-sm font-medium text-slate-400 mb-1">Previous OS</label>
+                        <input type="text" id="previousOS" placeholder="e.g. Android S" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div class="col-span-1 md:col-span-2 lg:col-span-2">
+                        <label for="targetOS" class="block text-sm font-medium text-slate-400 mb-1">Target OS</label>
+                        <input type="text" id="targetOS" placeholder="e.g. Android T" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div class="col-span-1 md:col-span-2 lg:col-span-4">
+                        <label for="Svideos" class="block text-sm font-medium text-slate-400 mb-1">Videos</label>
+                        <input type="text" id="Svideos" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-4">
-                <label for="inputPassword4" class="form-label">Build fingerprint</label>
-                <input class="form-control" id="Tfp">
+            <!-- Test Information -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Test Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="precondition" class="block text-sm font-medium text-slate-400 mb-1">Precondition:</label>
+                        <textarea id="precondition" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label for="testSteps" class="block text-sm font-medium text-slate-400 mb-1">Test Step Description:</label>
+                        <textarea id="testSteps" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label for="testResults" class="block text-sm font-medium text-slate-400 mb-1">Test Results:</label>
+                        <textarea id="testResults" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                </div>
             </div>
 
+            <!-- OS Result Information Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Previous OS Results -->
+                <div class="bg-slate-900/50 p-6 rounded-lg border border-slate-700">
+                    <h3 class="text-md font-medium text-blue-400 mb-4">Result information on Previous OS</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="Sresults" class="block text-sm font-medium text-slate-400 mb-1">Results</label>
+                            <input type="text" id="Sresults" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all" required>
+                        </div>
+                        <div>
+                            <label for="SAVG" class="block text-sm font-medium text-slate-400 mb-1">Average (AVG)</label>
+                            <input type="number" step="any" id="SAVG" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all" required>
+                        </div>
+                        <div>
+                            <label for="Sbug2go" class="block text-sm font-medium text-slate-400 mb-1">Bug2Go Link</label>
+                            <input type="text" id="Sbug2go" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all" required>
+                        </div>
+                        <div>
+                            <label for="Ssystrace" class="block text-sm font-medium text-slate-400 mb-1">Systrace Link</label>
+                            <input type="text" id="Ssystrace" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all" required>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="Sid" class="block text-sm font-medium text-slate-400 mb-1">Track ID</label>
+                            <input type="text" id="Sid" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all" required>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="Shw" class="block text-sm font-medium text-slate-400 mb-1">HW Version</label>
+                            <input type="text" id="Shw" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="Sfp" class="block text-sm font-medium text-slate-400 mb-1">Build Fingerprint</label>
+                            <input type="text" id="Sfp" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Target OS Results -->
+                <div class="bg-slate-900/50 p-6 rounded-lg border border-slate-700">
+                    <h3 class="text-md font-medium text-pink-400 mb-4">Result information on Target OS</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="Tresults" class="block text-sm font-medium text-slate-400 mb-1">Results</label>
+                            <input type="text" id="Tresults" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                        </div>
+                        <div>
+                            <label for="TAVG" class="block text-sm font-medium text-slate-400 mb-1">Average (AVG)</label>
+                            <input type="number" step="any" id="TAVG" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                        </div>
+                        <div>
+                            <label for="Tbug2go" class="block text-sm font-medium text-slate-400 mb-1">Bug2Go Link</label>
+                            <input type="text" id="Tbug2go" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                        </div>
+                        <div>
+                            <label for="Tsystrace" class="block text-sm font-medium text-slate-400 mb-1">Systrace Link</label>
+                            <input type="text" id="Tsystrace" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="Tid" class="block text-sm font-medium text-slate-400 mb-1">Track ID</label>
+                            <input type="text" id="Tid" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="Thw" class="block text-sm font-medium text-slate-400 mb-1">HW Version</label>
+                            <input type="text" id="Thw" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="Tfp" class="block text-sm font-medium text-slate-400 mb-1">Build Fingerprint</label>
+                            <input type="text" id="Tfp" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Action Button -->
+            <div class="flex justify-end pt-4 border-t border-slate-700">
+                <button type="submit" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-lg transition-transform transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900">
+                    Generate CR Description
+                </button>
+            </div>
         </form>
 
-        <button type="submit" id="copy" onclick="myFunction()">Create CR Description</button>
-        <textarea id="result"></textarea>
-    </div>
-</body>
+        <!-- Result Section -->
+        <div class="mt-8 bg-slate-800 p-6 rounded-xl shadow-lg border border-slate-700 hidden" id="result-section">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold text-white">Generated Description</h2>
+                <button type="button" id="copy-btn" class="flex items-center space-x-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span id="copy-text">Copy Description</span>
+                </button>
+            </div>
+            <textarea id="result" rows="24" class="w-full bg-slate-900 border border-slate-600 rounded-md py-3 px-4 text-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y" readonly></textarea>
+        </div>
 
+    </main>
+
+    <script src="ux.js"></script>
+</body>
 </html>
