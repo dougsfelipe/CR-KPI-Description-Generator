@@ -68,6 +68,18 @@
                         <input type="text" id="kpi_fp" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
                     </div>
                     <div>
+                        <label for="kpi_cycle" class="block text-sm font-medium text-slate-400 mb-1">Cycle</label>
+                        <select id="kpi_cycle" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                            <option value="Core KPI">Core KPI</option>
+                            <option value="Secondary KPI">Secondary KPI</option>
+                            <option value="Specific KPI">Specific KPI</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="kpi_product" class="block text-sm font-medium text-slate-400 mb-1">Product</label>
+                        <input type="text" id="kpi_product" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div>
                         <label for="kpi_hw" class="block text-sm font-medium text-slate-400 mb-1">HW Version</label>
                         <input type="text" id="kpi_hw" placeholder="PVT" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
                     </div>
@@ -215,7 +227,17 @@
                     <span id="kpi_copy-text">Copy Description</span>
                 </button>
             </div>
-            <textarea id="kpi_result" rows="24" class="w-full bg-slate-900 border border-slate-600 rounded-md py-3 px-4 text-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y" readonly></textarea>
+            <textarea id="kpi_result" rows="24" class="w-full bg-slate-900 border border-slate-600 rounded-md py-3 px-4 text-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y mb-6" readonly></textarea>
+            
+            <!-- Generated Summary -->
+            <div class="flex justify-between items-center mb-4 border-t border-slate-700 pt-6">
+                <h2 class="text-lg font-semibold text-white">Generated Summary</h2>
+                <button type="button" id="kpi_copy-summary-btn" class="flex items-center space-x-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span id="kpi_copy-summary-text">Copy Summary</span>
+                </button>
+            </div>
+            <textarea id="kpi_summary_result" rows="2" class="w-full bg-slate-900 border border-slate-600 rounded-md py-3 px-4 text-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" readonly></textarea>
         </div>
 
     
@@ -386,7 +408,17 @@
                     <span id="ux_copy-text">Copy Description</span>
                 </button>
             </div>
-            <textarea id="ux_result" rows="24" class="w-full bg-slate-900 border border-slate-600 rounded-md py-3 px-4 text-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y" readonly></textarea>
+            <textarea id="ux_result" rows="24" class="w-full bg-slate-900 border border-slate-600 rounded-md py-3 px-4 text-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y mb-6" readonly></textarea>
+            
+            <!-- Generated Summary -->
+            <div class="flex justify-between items-center mb-4 border-t border-slate-700 pt-6">
+                <h2 class="text-lg font-semibold text-white">Generated Summary</h2>
+                <button type="button" id="ux_copy-summary-btn" class="flex items-center space-x-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span id="ux_copy-summary-text">Copy Summary</span>
+                </button>
+            </div>
+            <textarea id="ux_summary_result" rows="2" class="w-full bg-slate-900 border border-slate-600 rounded-md py-3 px-4 text-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" readonly></textarea>
         </div>
 
     
@@ -568,8 +600,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const crForm = document.getElementById('kpi_cr-form');
     const copyBtn = document.getElementById('kpi_copy-btn');
+    const copySummaryBtn = document.getElementById('kpi_copy-summary-btn');
     const resultSection = document.getElementById('kpi_result-section');
     const resultTextarea = document.getElementById('kpi_result');
+    const summaryTextarea = document.getElementById('kpi_summary_result');
 
     const measureTypeSelect = document.getElementById('kpi_measureType');
     const systraceLabel = document.querySelector('label[for="kpi_Systrace"]');
@@ -592,7 +626,8 @@ document.addEventListener('DOMContentLoaded', () => {
         generateDescription();
     });
 
-    copyBtn.addEventListener('click', copyToClipboard);
+    copyBtn.addEventListener('click', () => copyToClipboard(resultTextarea, 'kpi_copy-text', copyBtn));
+    copySummaryBtn.addEventListener('click', () => copyToClipboard(summaryTextarea, 'kpi_copy-summary-text', copySummaryBtn));
 
     function generateDescription() {
         let x = document.getElementById("kpi_fp").value || "N/A";
@@ -697,6 +732,13 @@ Reviewed by *KPI Team*
 
         // Output to text area
         resultTextarea.value = textCR;
+        
+        // Output Summary
+        const cycleText = document.getElementById("kpi_cycle").value;
+        const productText = document.getElementById("kpi_product").value;
+        const summaryCR = `[${cycleText}]${productText}: ${titleID} - Failed`;
+        summaryTextarea.value = summaryCR;
+        
         resultSection.classList.remove('hidden');
         
         // Optional smooth scroll to result
@@ -705,46 +747,46 @@ Reviewed by *KPI Team*
         }, 100);
     }
 
-    function copyToClipboard() {
-        if (!resultTextarea.value) return;
+    function copyToClipboard(textareaElem, textId, btnElem) {
+        if (!textareaElem.value) return;
         
         // Copy using Clipboard API
-        navigator.clipboard.writeText(resultTextarea.value).then(() => {
+        navigator.clipboard.writeText(textareaElem.value).then(() => {
             // Visual feedback
-            const copyText = document.getElementById('kpi_copy-text');
+            const copyText = document.getElementById(textId);
             const originalText = copyText.innerText;
             
             copyText.innerText = "Copied!";
-            copyBtn.classList.remove('bg-slate-700', 'hover:bg-slate-600');
-            copyBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+            btnElem.classList.remove('bg-slate-700', 'hover:bg-slate-600');
+            btnElem.classList.add('bg-green-600', 'hover:bg-green-700');
             
             setTimeout(() => {
                 copyText.innerText = originalText;
-                copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
-                copyBtn.classList.add('bg-slate-700', 'hover:bg-slate-600');
+                btnElem.classList.remove('bg-green-600', 'hover:bg-green-700');
+                btnElem.classList.add('bg-slate-700', 'hover:bg-slate-600');
             }, 2000);
         }).catch(err => {
             console.error('Failed to copy: ', err);
             
             // Fallback for older browsers
-            resultTextarea.select();
-            resultTextarea.setSelectionRange(0, 99999);
+            textareaElem.select();
+            textareaElem.setSelectionRange(0, 99999);
             try {
                 document.execCommand("copy");
-                const copyText = document.getElementById('kpi_copy-text');
+                const copyText = document.getElementById(textId);
                 const originalText = copyText.innerText;
                 
                 copyText.innerText = "Copied!";
-                copyBtn.classList.remove('bg-slate-700', 'hover:bg-slate-600');
-                copyBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                btnElem.classList.remove('bg-slate-700', 'hover:bg-slate-600');
+                btnElem.classList.add('bg-green-600', 'hover:bg-green-700');
                 
                 setTimeout(() => {
                     copyText.innerText = originalText;
-                    copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
-                    copyBtn.classList.add('bg-slate-700', 'hover:bg-slate-600');
+                    btnElem.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    btnElem.classList.add('bg-slate-700', 'hover:bg-slate-600');
                 }, 2000);
             } catch (ex) {
-                alert("Failed to copy description to clipboard.");
+                alert("Failed to copy text to clipboard.");
             }
         });
     }
@@ -756,15 +798,18 @@ Reviewed by *KPI Team*
 
     const crForm = document.getElementById('ux_cr-form');
     const copyBtn = document.getElementById('ux_copy-btn');
+    const copySummaryBtn = document.getElementById('ux_copy-summary-btn');
     const resultSection = document.getElementById('ux_result-section');
     const resultTextarea = document.getElementById('ux_result');
+    const summaryTextarea = document.getElementById('ux_summary_result');
 
     crForm.addEventListener('submit', function(e) {
         e.preventDefault();
         generateDescription();
     });
 
-    copyBtn.addEventListener('click', copyToClipboard);
+    copyBtn.addEventListener('click', () => copyToClipboard(resultTextarea, 'ux_copy-text', copyBtn));
+    copySummaryBtn.addEventListener('click', () => copyToClipboard(summaryTextarea, 'ux_copy-summary-text', copySummaryBtn));
 
     function generateDescription() {
         // Collect radio box values
@@ -874,6 +919,14 @@ Reviewed by *KPI Team*
 
         // Output to text area
         resultTextarea.value = textCR;
+        
+        // Output Summary
+        // Format: [Scenario KPI]Product + Targets OS: Cold Launch Tested App its Percentage Slower than Product + Previous OS
+        let speedWord = diffValue > 0 ? "Slower" : "Faster";
+        let summaryPercentage = SAVG !== 0 ? Math.abs(Math.round(((TAVG / SAVG) * 100) - 100)) : 0;
+        let summaryCR = `[Scenario KPI]${product} ${targetOS}: Cold Launch ${testedapp} its ${summaryPercentage}% ${speedWord} than ${product} ${previousOS}`;
+        summaryTextarea.value = summaryCR;
+        
         resultSection.classList.remove('hidden');
         
         // Optional smooth scroll to result
@@ -882,46 +935,46 @@ Reviewed by *KPI Team*
         }, 100);
     }
 
-    function copyToClipboard() {
-        if (!resultTextarea.value) return;
+    function copyToClipboard(textareaElem, textId, btnElem) {
+        if (!textareaElem.value) return;
         
         // Copy using Clipboard API
-        navigator.clipboard.writeText(resultTextarea.value).then(() => {
+        navigator.clipboard.writeText(textareaElem.value).then(() => {
             // Visual feedback
-            const copyText = document.getElementById('ux_copy-text');
+            const copyText = document.getElementById(textId);
             const originalText = copyText.innerText;
             
             copyText.innerText = "Copied!";
-            copyBtn.classList.remove('bg-slate-700', 'hover:bg-slate-600');
-            copyBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+            btnElem.classList.remove('bg-slate-700', 'hover:bg-slate-600');
+            btnElem.classList.add('bg-green-600', 'hover:bg-green-700');
             
             setTimeout(() => {
                 copyText.innerText = originalText;
-                copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
-                copyBtn.classList.add('bg-slate-700', 'hover:bg-slate-600');
+                btnElem.classList.remove('bg-green-600', 'hover:bg-green-700');
+                btnElem.classList.add('bg-slate-700', 'hover:bg-slate-600');
             }, 2000);
         }).catch(err => {
             console.error('Failed to copy: ', err);
             
             // Fallback for older browsers
-            resultTextarea.select();
-            resultTextarea.setSelectionRange(0, 99999);
+            textareaElem.select();
+            textareaElem.setSelectionRange(0, 99999);
             try {
                 document.execCommand("copy");
-                const copyText = document.getElementById('ux_copy-text');
+                const copyText = document.getElementById(textId);
                 const originalText = copyText.innerText;
                 
                 copyText.innerText = "Copied!";
-                copyBtn.classList.remove('bg-slate-700', 'hover:bg-slate-600');
-                copyBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                btnElem.classList.remove('bg-slate-700', 'hover:bg-slate-600');
+                btnElem.classList.add('bg-green-600', 'hover:bg-green-700');
                 
                 setTimeout(() => {
                     copyText.innerText = originalText;
-                    copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
-                    copyBtn.classList.add('bg-slate-700', 'hover:bg-slate-600');
+                    btnElem.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    btnElem.classList.add('bg-slate-700', 'hover:bg-slate-600');
                 }, 2000);
             } catch (ex) {
-                alert("Failed to copy description to clipboard.");
+                alert("Failed to copy text to clipboard.");
             }
         });
     }
