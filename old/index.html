@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPI CR Generator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for textarea */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        textarea::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-200 font-sans min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-slate-800 border-b border-slate-700 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <span class="text-xl font-semibold text-white tracking-wide">KPI CR Description Generator</span>
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Navigation Pills -->
+        <div class="flex flex-wrap justify-center gap-4 mb-10" id="spa-nav">
+            <button data-target="view-kpi" class="tab-btn px-6 py-2 rounded-md font-medium transition-colors text-white bg-blue-600 shadow border border-blue-500 hover:bg-blue-700">KPI CR</button>
+            <button data-target="view-ux" class="tab-btn px-6 py-2 rounded-md font-medium transition-colors text-slate-400 border border-slate-700 hover:bg-slate-800 hover:text-white">Scenario KPI</button>
+            <button data-target="view-obs" class="tab-btn px-6 py-2 rounded-md font-medium transition-colors text-slate-400 border border-slate-700 hover:bg-slate-800 hover:text-white">Observation CR</button>
+            <button data-target="view-com" class="tab-btn px-6 py-2 rounded-md font-medium transition-colors text-slate-400 border border-slate-700 hover:bg-slate-800 hover:text-white">CR Comments</button>
+        </div>
+
+        <div id="view-kpi" class="spa-view" style="display: block;">
+<form id="kpi_cr-form" class="space-y-8 bg-slate-800 p-8 rounded-xl shadow-lg border border-slate-700">
+            
+            <!-- Device information -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Device Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="kpi_fp" class="block text-sm font-medium text-slate-400 mb-1">Build Fingerprint</label>
+                        <input type="text" id="kpi_fp" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div>
+                        <label for="kpi_cycle" class="block text-sm font-medium text-slate-400 mb-1">Cycle</label>
+                        <select id="kpi_cycle" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                            <option value="Core KPI">Core KPI</option>
+                            <option value="Secondary KPI">Secondary KPI</option>
+                            <option value="Specific KPI">Specific KPI</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="kpi_product" class="block text-sm font-medium text-slate-400 mb-1">Product</label>
+                        <input type="text" id="kpi_product" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div>
+                        <label for="kpi_hw" class="block text-sm font-medium text-slate-400 mb-1">HW Version</label>
+                        <input type="text" id="kpi_hw" placeholder="PVT" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div>
+                        <label for="kpi_app" class="block text-sm font-medium text-slate-400 mb-1">App Version <span class="text-slate-500 text-xs">(*if applicable)</span></label>
+                        <input type="text" id="kpi_app" placeholder="optional" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                    </div>
+                    <div>
+                        <label for="kpi_measureType" class="block text-sm font-medium text-slate-400 mb-1">Measure Type</label>
+                        <select id="kpi_measureType" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                            <option value="ms">ms</option>
+                            <option value="FPS">FPS</option>
+                            <option value="Janks">Janks</option>
+                            <option value="MB">MB</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="kpi_previousOS" class="block text-sm font-medium text-slate-400 mb-1">Previous OS</label>
+                        <input type="text" id="kpi_previousOS" placeholder="e.g. Android S" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div>
+                        <label for="kpi_targetOS" class="block text-sm font-medium text-slate-400 mb-1">Target OS</label>
+                        <input type="text" id="kpi_targetOS" placeholder="e.g. Android T" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Information -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Test Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="kpi_testPlan" class="block text-sm font-medium text-slate-400 mb-1">Test Plan</label>
+                        <input type="text" id="kpi_testPlan" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div>
+                        <label for="kpi_testCase" class="block text-sm font-medium text-slate-400 mb-1">Test Case</label>
+                        <input type="text" id="kpi_testCase" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="kpi_initialSetup" class="block text-sm font-medium text-slate-400 mb-1">Initial Setup:</label>
+                        <textarea id="kpi_initialSetup" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label for="kpi_testSteps" class="block text-sm font-medium text-slate-400 mb-1">Test step description:</label>
+                        <textarea id="kpi_testSteps" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label for="kpi_expectResults" class="block text-sm font-medium text-slate-400 mb-1">Expected Results:</label>
+                        <textarea id="kpi_expectResults" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result Information -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Result Information</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+                    <div>
+                        <label for="kpi_kpiID" class="block text-sm font-medium text-slate-400 mb-1">KPI ID</label>
+                        <input type="text" id="kpi_kpiID" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                    </div>
+                    <div>
+                        <label for="kpi_AVG" class="block text-sm font-medium text-slate-400 mb-1">AVG</label>
+                        <input type="text" id="kpi_AVG" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                    </div>
+                    <div>
+                        <label for="kpi_results" class="block text-sm font-medium text-slate-400 mb-1">Results</label>
+                        <input type="text" id="kpi_results" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                    </div>
+                    <div>
+                        <label for="kpi_goal" class="block text-sm font-medium text-slate-400 mb-1">KPI Goal + Tolerance</label>
+                        <input type="text" id="kpi_goal" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="kpi_logs" class="block text-sm font-medium text-slate-400 mb-1">Bug2Go (Logs)</label>
+                        <input type="text" id="kpi_logs" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all">
+                    </div>
+                    <div>
+                        <label for="kpi_Systrace" class="block text-sm font-medium text-slate-400 mb-1">Systrace</label>
+                        <input type="text" id="kpi_Systrace" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all">
+                    </div>
+                    <div>
+                        <label for="kpi_videos" class="block text-sm font-medium text-slate-400 mb-1">Video</label>
+                        <input type="text" id="kpi_videos" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Baseline Information -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Baseline Information</h2>
+                <div class="bg-slate-900/50 p-6 rounded-lg border border-slate-700">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                        <div class="md:col-span-2">
+                            <label for="kpi_fpBaseline" class="block text-sm font-medium text-slate-400 mb-1">Build Fingerprint</label>
+                            <input type="text" id="kpi_fpBaseline" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all" required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="kpi_hwBaseline" class="block text-sm font-medium text-slate-400 mb-1">HW Version</label>
+                            <input type="text" id="kpi_hwBaseline" placeholder="PVT" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all" required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="kpi_avgBaseline" class="block text-sm font-medium text-slate-400 mb-1">AVG</label>
+                            <input type="text" id="kpi_avgBaseline" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all" required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="kpi_resultsBaseline" class="block text-sm font-medium text-slate-400 mb-1">Results</label>
+                            <input type="text" id="kpi_resultsBaseline" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all" required>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label for="kpi_logsBaseline" class="block text-sm font-medium text-slate-400 mb-1">Bug2Go (Logs)</label>
+                            <input type="text" id="kpi_logsBaseline" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                        </div>
+                        <div>
+                            <label for="kpi_systraceBaseline" class="block text-sm font-medium text-slate-400 mb-1">Systrace</label>
+                            <input type="text" id="kpi_systraceBaseline" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                        </div>
+                        <div>
+                            <label for="kpi_videosBaseline" class="block text-sm font-medium text-slate-400 mb-1">Video</label>
+                            <input type="text" id="kpi_videosBaseline" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="flex justify-end pt-4 border-t border-slate-700">
+                <button type="submit" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-lg transition-transform transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900">
+                    Generate CR Description
+                </button>
+            </div>
+        </form>
+<div class="mt-8 bg-slate-800 p-6 rounded-xl shadow-lg border border-slate-700 hidden" id="kpi_result-section">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold text-white">Generated Description</h2>
+                <button type="button" id="kpi_copy-btn" class="flex items-center space-x-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span id="kpi_copy-text">Copy Description</span>
+                </button>
+            </div>
+            <textarea id="kpi_result" rows="24" class="w-full bg-slate-900 border border-slate-600 rounded-md py-3 px-4 text-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y mb-6" readonly></textarea>
+            
+            <!-- Generated Summary -->
+            <div class="flex justify-between items-center mb-4 border-t border-slate-700 pt-6">
+                <h2 class="text-lg font-semibold text-white">Generated Summary</h2>
+                <button type="button" id="kpi_copy-summary-btn" class="flex items-center space-x-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span id="kpi_copy-summary-text">Copy Summary</span>
+                </button>
+            </div>
+            <textarea id="kpi_summary_result" rows="2" class="w-full bg-slate-900 border border-slate-600 rounded-md py-3 px-4 text-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" readonly></textarea>
+        </div>
+
+    
+        </div>
+
+        <div id="view-ux" class="spa-view" style="display: none;">
+<form id="ux_cr-form" class="space-y-8 bg-slate-800 p-8 rounded-xl shadow-lg border border-slate-700">
+            
+            <!-- Reproducing the issue -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Reproducing the Issue</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="col-span-1 md:col-span-2 lg:col-span-4 flex flex-wrap items-center gap-6 bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <span class="text-sm font-medium text-slate-300">Device RAM:</span>
+                        <label class="inline-flex items-center cursor-pointer group">
+                            <input type="radio" name="ux_ram" id="ux_less4" class="form-radio text-blue-500 focus:ring-blue-500 bg-slate-800 border-slate-600" checked>
+                            <span class="ml-2 text-sm text-slate-300 group-hover:text-white transition-colors">&lt;= 4GB</span>
+                        </label>
+                        <label class="inline-flex items-center cursor-pointer group">
+                            <input type="radio" name="ux_ram" id="ux_more4" class="form-radio text-blue-500 focus:ring-blue-500 bg-slate-800 border-slate-600">
+                            <span class="ml-2 text-sm text-slate-300 group-hover:text-white transition-colors">&gt; 4GB</span>
+                        </label>
+                    </div>
+
+                    <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                        <label for="ux_product" class="block text-sm font-medium text-slate-400 mb-1">Product</label>
+                        <input type="text" id="ux_product" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                        <label for="ux_testedapp" class="block text-sm font-medium text-slate-400 mb-1">Tested App</label>
+                        <input type="text" id="ux_testedapp" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                        <label for="ux_app" class="block text-sm font-medium text-slate-400 mb-1">App Version <span class="text-slate-500 text-xs">(*if applicable)</span></label>
+                        <input type="text" id="ux_app" placeholder="optional" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                    </div>
+                    <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                        <label for="ux_measureType" class="block text-sm font-medium text-slate-400 mb-1">Measure Type</label>
+                        <select id="ux_measureType" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                            <option value="ms">ms</option>
+                            <option value="FPS">FPS</option>
+                            <option value="Janks">Janks</option>
+                            <option value="MB">MB</option>
+                        </select>
+                    </div>
+
+                    <div class="col-span-1 md:col-span-2 lg:col-span-2">
+                        <label for="ux_previousOS" class="block text-sm font-medium text-slate-400 mb-1">Previous OS</label>
+                        <input type="text" id="ux_previousOS" placeholder="e.g. Android S" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div class="col-span-1 md:col-span-2 lg:col-span-2">
+                        <label for="ux_targetOS" class="block text-sm font-medium text-slate-400 mb-1">Target OS</label>
+                        <input type="text" id="ux_targetOS" placeholder="e.g. Android T" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div class="col-span-1 md:col-span-2 lg:col-span-4">
+                        <label for="ux_Svideos" class="block text-sm font-medium text-slate-400 mb-1">Videos</label>
+                        <input type="text" id="ux_Svideos" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Information -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Test Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="ux_precondition" class="block text-sm font-medium text-slate-400 mb-1">Precondition:</label>
+                        <textarea id="ux_precondition" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label for="ux_testSteps" class="block text-sm font-medium text-slate-400 mb-1">Test Step Description:</label>
+                        <textarea id="ux_testSteps" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label for="ux_testResults" class="block text-sm font-medium text-slate-400 mb-1">Test Results:</label>
+                        <textarea id="ux_testResults" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OS Result Information Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Previous OS Results -->
+                <div class="bg-slate-900/50 p-6 rounded-lg border border-slate-700">
+                    <h3 class="text-md font-medium text-blue-400 mb-4">Result information on Previous OS</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="ux_Sresults" class="block text-sm font-medium text-slate-400 mb-1">Results</label>
+                            <input type="text" id="ux_Sresults" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all" required>
+                        </div>
+                        <div>
+                            <label for="ux_SAVG" class="block text-sm font-medium text-slate-400 mb-1">Average (AVG)</label>
+                            <input type="number" step="any" id="ux_SAVG" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all" required>
+                        </div>
+                        <div>
+                            <label for="ux_Sbug2go" class="block text-sm font-medium text-slate-400 mb-1">Bug2Go Link</label>
+                            <input type="text" id="ux_Sbug2go" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all" required>
+                        </div>
+                        <div>
+                            <label for="ux_Ssystrace" class="block text-sm font-medium text-slate-400 mb-1">Systrace Link</label>
+                            <input type="text" id="ux_Ssystrace" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all" required>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="ux_Sid" class="block text-sm font-medium text-slate-400 mb-1">Track ID</label>
+                            <input type="text" id="ux_Sid" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all" required>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="ux_Shw" class="block text-sm font-medium text-slate-400 mb-1">HW Version</label>
+                            <input type="text" id="ux_Shw" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="ux_Sfp" class="block text-sm font-medium text-slate-400 mb-1">Build Fingerprint</label>
+                            <input type="text" id="ux_Sfp" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Target OS Results -->
+                <div class="bg-slate-900/50 p-6 rounded-lg border border-slate-700">
+                    <h3 class="text-md font-medium text-pink-400 mb-4">Result information on Target OS</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="ux_Tresults" class="block text-sm font-medium text-slate-400 mb-1">Results</label>
+                            <input type="text" id="ux_Tresults" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                        </div>
+                        <div>
+                            <label for="ux_TAVG" class="block text-sm font-medium text-slate-400 mb-1">Average (AVG)</label>
+                            <input type="number" step="any" id="ux_TAVG" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                        </div>
+                        <div>
+                            <label for="ux_Tbug2go" class="block text-sm font-medium text-slate-400 mb-1">Bug2Go Link</label>
+                            <input type="text" id="ux_Tbug2go" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                        </div>
+                        <div>
+                            <label for="ux_Tsystrace" class="block text-sm font-medium text-slate-400 mb-1">Systrace Link</label>
+                            <input type="text" id="ux_Tsystrace" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="ux_Tid" class="block text-sm font-medium text-slate-400 mb-1">Track ID</label>
+                            <input type="text" id="ux_Tid" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all" required>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="ux_Thw" class="block text-sm font-medium text-slate-400 mb-1">HW Version</label>
+                            <input type="text" id="ux_Thw" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="ux_Tfp" class="block text-sm font-medium text-slate-400 mb-1">Build Fingerprint</label>
+                            <input type="text" id="ux_Tfp" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Action Button -->
+            <div class="flex justify-end pt-4 border-t border-slate-700">
+                <button type="submit" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-lg transition-transform transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900">
+                    Generate CR Description
+                </button>
+            </div>
+        </form>
+<div class="mt-8 bg-slate-800 p-6 rounded-xl shadow-lg border border-slate-700 hidden" id="ux_result-section">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold text-white">Generated Description</h2>
+                <button type="button" id="ux_copy-btn" class="flex items-center space-x-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span id="ux_copy-text">Copy Description</span>
+                </button>
+            </div>
+            <textarea id="ux_result" rows="24" class="w-full bg-slate-900 border border-slate-600 rounded-md py-3 px-4 text-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y mb-6" readonly></textarea>
+            
+            <!-- Generated Summary -->
+            <div class="flex justify-between items-center mb-4 border-t border-slate-700 pt-6">
+                <h2 class="text-lg font-semibold text-white">Generated Summary</h2>
+                <button type="button" id="ux_copy-summary-btn" class="flex items-center space-x-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span id="ux_copy-summary-text">Copy Summary</span>
+                </button>
+            </div>
+            <textarea id="ux_summary_result" rows="2" class="w-full bg-slate-900 border border-slate-600 rounded-md py-3 px-4 text-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" readonly></textarea>
+        </div>
+
+    
+        </div>
+
+        <div id="view-obs" class="spa-view" style="display: none;">
+<form id="obs_cr-form" class="space-y-8 bg-slate-800 p-8 rounded-xl shadow-lg border border-slate-700">
+            
+            <!-- Device information -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Device Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="obs_fp" class="block text-sm font-medium text-slate-400 mb-1">Build Fingerprint</label>
+                        <input type="text" id="obs_fp" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div>
+                        <label for="obs_hw" class="block text-sm font-medium text-slate-400 mb-1">HW Version</label>
+                        <input type="text" id="obs_hw" placeholder="PVT" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div>
+                        <label for="obs_app" class="block text-sm font-medium text-slate-400 mb-1">App Version <span class="text-slate-500 text-xs">(*if applicable)</span></label>
+                        <input type="text" id="obs_app" placeholder="optional" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Information -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Test Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="obs_testSteps" class="block text-sm font-medium text-slate-400 mb-1">Steps to Reproduce</label>
+                        <textarea id="obs_testSteps" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label for="obs_actualResults" class="block text-sm font-medium text-slate-400 mb-1">Actual Result</label>
+                        <textarea id="obs_actualResults" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label for="obs_expectResults" class="block text-sm font-medium text-slate-400 mb-1">Expected Result</label>
+                        <textarea id="obs_expectResults" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result Information -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Result Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="obs_logs" class="block text-sm font-medium text-slate-400 mb-1">Logs (Bug2Go / etc.)</label>
+                        <input type="text" id="obs_logs" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all">
+                    </div>
+                    <div>
+                        <label for="obs_video" class="block text-sm font-medium text-slate-400 mb-1">Videos</label>
+                        <input type="text" id="obs_video" placeholder="optional" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all">
+                    </div>
+                    <div>
+                        <label for="obs_information" class="block text-sm font-medium text-slate-400 mb-1">Additional Information</label>
+                        <input type="text" id="obs_information" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all">
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Action Button -->
+            <div class="flex justify-end pt-4 border-t border-slate-700">
+                <button type="submit" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-lg transition-transform transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900">
+                    Generate CR Description
+                </button>
+            </div>
+        </form>
+<div class="mt-8 bg-slate-800 p-6 rounded-xl shadow-lg border border-slate-700 hidden" id="obs_result-section">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold text-white">Generated Description</h2>
+                <button type="button" id="obs_copy-btn" class="flex items-center space-x-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span id="obs_copy-text">Copy Description</span>
+                </button>
+            </div>
+            <textarea id="obs_result" rows="24" class="w-full bg-slate-900 border border-slate-600 rounded-md py-3 px-4 text-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y" readonly></textarea>
+        </div>
+
+    
+        </div>
+
+        <div id="view-com" class="spa-view" style="display: none;">
+<form id="com_cr-form" class="space-y-8 bg-slate-800 p-8 rounded-xl shadow-lg border border-slate-700">
+            
+            <!-- Comment Configuration -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Comment Type</h2>
+                <div class="flex flex-wrap items-center gap-6 bg-slate-900 p-4 rounded-lg border border-slate-700">
+                    <span class="text-sm font-medium text-slate-300">Format:</span>
+                    <label class="inline-flex items-center cursor-pointer group">
+                        <input type="radio" name="com_commentType" id="com_typeSingle" value="single" class="form-radio text-blue-500 focus:ring-blue-500 bg-slate-800 border-slate-600" checked>
+                        <span class="ml-2 text-sm text-slate-300 group-hover:text-white transition-colors">Single Comment</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer group">
+                        <input type="radio" name="com_commentType" id="com_typeTable" value="table" class="form-radio text-blue-500 focus:ring-blue-500 bg-slate-800 border-slate-600">
+                        <span class="ml-2 text-sm text-slate-300 group-hover:text-white transition-colors">Table</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Build & Results Data -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Build & Results</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="col-span-1 md:col-span-2">
+                        <label for="com_buildNumber" class="block text-sm font-medium text-slate-400 mb-1">Build Number</label>
+                        <input type="text" id="com_buildNumber" placeholder="e.g. S3TC32.4" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div class="col-span-1 md:col-span-2">
+                        <label for="com_buildFingerprint" class="block text-sm font-medium text-slate-400 mb-1">Build Fingerprint</label>
+                        <input type="text" id="com_buildFingerprint" placeholder="e.g. motorola/..." class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div class="col-span-1 md:col-span-2">
+                        <label for="com_results" class="block text-sm font-medium text-slate-400 mb-1">Results</label>
+                        <input type="text" id="com_results" placeholder="e.g. 154, 155, 149" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                    <div class="col-span-1 md:col-span-2">
+                        <label for="com_avg" class="block text-sm font-medium text-slate-400 mb-1">Average (AVG)</label>
+                        <input type="text" id="com_avg" placeholder="e.g. 152.6" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evidence Links -->
+            <div>
+                <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">Evidence Links</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="com_bug2go" class="block text-sm font-medium text-slate-400 mb-1">Bug2Go</label>
+                        <input type="text" id="com_bug2go" placeholder="optional" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all">
+                    </div>
+                    <div>
+                        <label for="com_systrace" class="block text-sm font-medium text-slate-400 mb-1">Systrace</label>
+                        <input type="text" id="com_systrace" placeholder="optional" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all">
+                    </div>
+                    <div>
+                        <label for="com_logsScript" class="block text-sm font-medium text-slate-400 mb-1">Logs from Script</label>
+                        <input type="text" id="com_logsScript" placeholder="optional" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all">
+                    </div>
+                    <div>
+                        <label for="com_video" class="block text-sm font-medium text-slate-400 mb-1">Video</label>
+                        <input type="text" id="com_video" placeholder="optional" class="w-full bg-slate-900 border border-slate-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="flex justify-end pt-4 border-t border-slate-700">
+                <button type="submit" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-lg transition-transform transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900">
+                    Generate CR Comment
+                </button>
+            </div>
+        </form>
+<div class="mt-8 bg-slate-800 p-6 rounded-xl shadow-lg border border-slate-700 hidden" id="com_result-section">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold text-white">Generated Comment</h2>
+                <button type="button" id="com_copy-btn" class="flex items-center space-x-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span id="com_copy-text">Copy Comment</span>
+                </button>
+            </div>
+            <textarea id="com_result" rows="12" class="w-full bg-slate-900 border border-slate-600 rounded-md py-3 px-4 text-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y" readonly></textarea>
+        </div>
+
+    
+        </div>
+
+    </main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+// --- KPI LOGIC ---
+(function() {
+
+    const crForm = document.getElementById('kpi_cr-form');
+    const copyBtn = document.getElementById('kpi_copy-btn');
+    const copySummaryBtn = document.getElementById('kpi_copy-summary-btn');
+    const resultSection = document.getElementById('kpi_result-section');
+    const resultTextarea = document.getElementById('kpi_result');
+    const summaryTextarea = document.getElementById('kpi_summary_result');
+
+    const measureTypeSelect = document.getElementById('kpi_measureType');
+    const systraceLabel = document.querySelector('label[for="kpi_Systrace"]');
+    const systraceBaselineLabel = document.querySelector('label[for="kpi_systraceBaseline"]');
+
+    if (measureTypeSelect) {
+        measureTypeSelect.addEventListener('change', (e) => {
+            if (e.target.value === 'MB') {
+                systraceLabel.innerText = "Logs from Script";
+                systraceBaselineLabel.innerText = "Logs from Script";
+            } else {
+                systraceLabel.innerText = "Systrace";
+                systraceBaselineLabel.innerText = "Systrace";
+            }
+        });
+    }
+
+    crForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        generateDescription();
+    });
+
+    copyBtn.addEventListener('click', () => copyToClipboard(resultTextarea, 'kpi_copy-text', copyBtn));
+    copySummaryBtn.addEventListener('click', () => copyToClipboard(summaryTextarea, 'kpi_copy-summary-text', copySummaryBtn));
+
+    function generateDescription() {
+        let x = document.getElementById("kpi_fp").value || "N/A";
+        let fpText = `*Build fingerprint:* ${x}`;
+
+        let y = document.getElementById("kpi_hw").value || "N/A";
+        let hwText = `*Hw Version:* ${y}`;
+
+        let tp = document.getElementById("kpi_testPlan").value || "N/A";
+        let tc = document.getElementById("kpi_testCase").value || "N/A";
+
+        let is = document.getElementById("kpi_initialSetup").value || "N/A";
+        let tsd = document.getElementById("kpi_testSteps").value || "N/A";
+        let er = document.getElementById("kpi_expectResults").value || "N/A";
+
+        let titleID = document.getElementById("kpi_kpiID").value || "KPI Component";
+        let avg = document.getElementById("kpi_AVG").value || "0";
+        let results = document.getElementById("kpi_results").value || "0";
+        let goal = document.getElementById("kpi_goal").value || "0";
+
+        let linkLogs = document.getElementById("kpi_logs").value.trim();
+        let linkSystrace = document.getElementById("kpi_Systrace").value.trim();
+        let linkDrive = document.getElementById("kpi_videos").value.trim();
+
+        let fpBaseline = document.getElementById("kpi_fpBaseline").value || "N/A";
+        let hwBaseline = document.getElementById("kpi_hwBaseline").value || "N/A";
+        let avgBaseline = document.getElementById("kpi_avgBaseline").value || "0";
+        let resultsBaseline = document.getElementById("kpi_resultsBaseline").value || "0";
+        let logsBaseline = document.getElementById("kpi_logsBaseline").value.trim();
+        let systraceBaseline = document.getElementById("kpi_systraceBaseline").value.trim();
+        let videosBaseline = document.getElementById("kpi_videosBaseline").value.trim();
+
+        let w = document.getElementById("kpi_app").value;
+        let appText = "";
+        if(w !== "") {
+            appText = `*App Version:* ${w}`;
+        }
+        
+        const measureType = document.getElementById("kpi_measureType").value;
+        const previousOS = document.getElementById("kpi_previousOS").value || "Previous OS";
+        const targetOS = document.getElementById("kpi_targetOS").value || "Target OS";
+        
+        let currentSystraceName = measureType === 'MB' ? "Logs from Script" : "Systrace";
+        
+        let targetVideosStr = linkDrive ? `\n*Videos:* [drive|${linkDrive}]` : "";
+        let targetLogsLinks = [];
+        if (linkLogs) targetLogsLinks.push(`[Bug2Go|${linkLogs}]`);
+        if (linkSystrace) targetLogsLinks.push(`[${currentSystraceName}|${linkSystrace}]`);
+        let targetLogsStr = targetLogsLinks.length > 0 ? `\n*Logs:* ${targetLogsLinks.join(' and ')}` : "";
+
+        let baselineVideosStr = videosBaseline ? `\n*Video:* [drive|${videosBaseline}]` : "";
+        let baselineLogsLinks = [];
+        if (logsBaseline) baselineLogsLinks.push(`[Bug2Go|${logsBaseline}]`);
+        if (systraceBaseline) baselineLogsLinks.push(`[${currentSystraceName}|${systraceBaseline}]`);
+        let baselineLogsStr = baselineLogsLinks.length > 0 ? `\n*Logs:* ${baselineLogsLinks.join(' and ')}` : "";
+
+        let textCR = `{panel:title=Reproducing the issue|titleBGColor=#e6e6ea }
+${fpText} 
+${hwText} 
+${appText}
+
+
+*Test Case:* ${tc}
+*Test Plan:* ${tp}
+
+{panel}
+
+{panel:title=Test Case Description|titleBGColor=#d2d4dc}
+
+*Initial Setup:*
+
+${is}
+
+*Test step description:*
+
+${tsd}
+
+
+*Expected Results:*
+${er}
+
+{panel}
+
+
+{panel:title=${titleID} - Target OS (${targetOS})|titleBGColor=#f4b6c2}
+*Average (${measureType}):* ${avg}
+*Readings (${measureType}):* ${results}
+*Goal + tolerance (${measureType}):* ${goal}
+Status: {color:#FF0000}*Fail*{color}${targetVideosStr}${targetLogsStr}
+{panel}
+
+{panel:title=Baseline Results on Previous OS (${previousOS})|titleBGColor=#83d0c9}
+*Fingerprint:* ${fpBaseline}
+*Hw Version:* ${hwBaseline}
+*Results (${measureType}):* ${resultsBaseline}
+*AVG (${measureType}):* ${avgBaseline}${baselineLogsStr}${baselineVideosStr}
+{panel}
+
+
+Reviewed by *KPI Team*
+`;
+
+        // Output to text area
+        resultTextarea.value = textCR;
+        
+        // Output Summary
+        const cycleText = document.getElementById("kpi_cycle").value;
+        const productText = document.getElementById("kpi_product").value;
+        const summaryCR = `[${cycleText}]${productText}: ${titleID} - Failed`;
+        summaryTextarea.value = summaryCR;
+        
+        resultSection.classList.remove('hidden');
+        
+        // Optional smooth scroll to result
+        setTimeout(() => {
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }, 100);
+    }
+
+    function copyToClipboard(textareaElem, textId, btnElem) {
+        if (!textareaElem.value) return;
+        
+        // Copy using Clipboard API
+        navigator.clipboard.writeText(textareaElem.value).then(() => {
+            // Visual feedback
+            const copyText = document.getElementById(textId);
+            const originalText = copyText.innerText;
+            
+            copyText.innerText = "Copied!";
+            btnElem.classList.remove('bg-slate-700', 'hover:bg-slate-600');
+            btnElem.classList.add('bg-green-600', 'hover:bg-green-700');
+            
+            setTimeout(() => {
+                copyText.innerText = originalText;
+                btnElem.classList.remove('bg-green-600', 'hover:bg-green-700');
+                btnElem.classList.add('bg-slate-700', 'hover:bg-slate-600');
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            
+            // Fallback for older browsers
+            textareaElem.select();
+            textareaElem.setSelectionRange(0, 99999);
+            try {
+                document.execCommand("copy");
+                const copyText = document.getElementById(textId);
+                const originalText = copyText.innerText;
+                
+                copyText.innerText = "Copied!";
+                btnElem.classList.remove('bg-slate-700', 'hover:bg-slate-600');
+                btnElem.classList.add('bg-green-600', 'hover:bg-green-700');
+                
+                setTimeout(() => {
+                    copyText.innerText = originalText;
+                    btnElem.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    btnElem.classList.add('bg-slate-700', 'hover:bg-slate-600');
+                }, 2000);
+            } catch (ex) {
+                alert("Failed to copy text to clipboard.");
+            }
+        });
+    }
+
+})();
+
+// --- UX LOGIC ---
+(function() {
+
+    const crForm = document.getElementById('ux_cr-form');
+    const copyBtn = document.getElementById('ux_copy-btn');
+    const copySummaryBtn = document.getElementById('ux_copy-summary-btn');
+    const resultSection = document.getElementById('ux_result-section');
+    const resultTextarea = document.getElementById('ux_result');
+    const summaryTextarea = document.getElementById('ux_summary_result');
+
+    crForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        generateDescription();
+    });
+
+    copyBtn.addEventListener('click', () => copyToClipboard(resultTextarea, 'ux_copy-text', copyBtn));
+    copySummaryBtn.addEventListener('click', () => copyToClipboard(summaryTextarea, 'ux_copy-summary-text', copySummaryBtn));
+
+    function generateDescription() {
+        // Collect radio box values
+        const more4 = document.getElementById("ux_more4").checked;
+        const less4 = document.getElementById("ux_less4").checked; 
+        
+        let deviceSetupText = "";
+        if (more4) {
+            deviceSetupText = `Install the top 30 apps, import 3000 contacts (add 50 favorite contacts), 5000 text messages, 500 call records, 50 videos and 4500 pictures. [Device Setup here|https://docs.google.com/spreadsheets/d/1ou7gybNGn7lZ1Osk--mzMbPaU__qAv9hFs1JHpvbY1I/edit?pli=1#gid=1282504372].`;
+        } else if (less4) {
+            deviceSetupText = `Install the top 15 apps, import 1000 contacts (add 50 favorite contacts), 3000 text messages, 300 call records, 25 videos and 1500 pictures. [Device Setup here|https://docs.google.com/spreadsheets/d/1ou7gybNGn7lZ1Osk--mzMbPaU__qAv9hFs1JHpvbY1I/edit?pli=1#gid=1282504372].`;
+        } else {
+            deviceSetupText = `N/A`;
+        }
+
+        // General Information
+        const product = document.getElementById("ux_product").value || "N/A";
+        const testedapp = document.getElementById("ux_testedapp").value || "N/A";
+        const app = document.getElementById("ux_app").value || "N/A";
+        const Svideos = document.getElementById("ux_Svideos").value || "N/A";
+        const measureType = document.getElementById("ux_measureType").value;
+        
+        // OS Names
+        const previousOS = document.getElementById("ux_previousOS").value || `${product} S`;
+        const targetOS = document.getElementById("ux_targetOS").value || `${product} T`;
+
+        // Test information
+        const precondition = document.getElementById("ux_precondition").value || "N/A";
+        const testSteps = document.getElementById("ux_testSteps").value || "N/A";
+        const testResults = document.getElementById("ux_testResults").value || "N/A";
+
+        // Result information on Previous OS
+        const Sresults = document.getElementById("ux_Sresults").value || "0";
+        const SAVG = parseFloat(document.getElementById("ux_SAVG").value) || 0;
+        const Sbug2go = document.getElementById("ux_Sbug2go").value || "N/A";
+        const Ssystrace = document.getElementById("ux_Ssystrace").value || "N/A";
+        const Sid = document.getElementById("ux_Sid").value || "N/A";
+        const Shw = document.getElementById("ux_Shw").value || "N/A";
+        const Sfp = document.getElementById("ux_Sfp").value || "N/A";
+
+        // Result information on Target OS
+        const Tresults = document.getElementById("ux_Tresults").value || "0";
+        const TAVG = parseFloat(document.getElementById("ux_TAVG").value) || 0;
+        const Tbug2go = document.getElementById("ux_Tbug2go").value || "N/A";
+        const Tsystrace = document.getElementById("ux_Tsystrace").value || "N/A";
+        const Tid = document.getElementById("ux_Tid").value || "N/A";
+        const Thw = document.getElementById("ux_Thw").value || "N/A";
+        const Tfp = document.getElementById("ux_Tfp").value || "N/A";
+
+        // Calculate differences
+        let percentage = 0;
+        if (SAVG !== 0) {
+            percentage = Math.round(((TAVG / SAVG) * 100) - 100);
+        }
+        const diffValue = TAVG - SAVG;
+        const diffText = diffValue > 0 ? `+${parseFloat(diffValue.toFixed(2))}` : `${parseFloat(diffValue.toFixed(2))}`;
+
+        // Formatting the CR text
+        const textCR = `{panel:title=Reproducing the issue|titleBGColor=#e6e6ea }
+*Device Setup:* ${deviceSetupText}
+
+*App Version:* ${app}
+
+
+*Test steps - Precondition* 
+
+${precondition}
+
+*Test Step Description* 
+
+${testSteps}
+
+*Test Results* 
+
+${testResults}
+
+{panel}
+
+
+||OS version||Results (${measureType})||Average (${measureType})||
+|${previousOS}|${Sresults}|${SAVG}|
+|${targetOS}|${Tresults}|${TAVG}|
+
+Tested ${testedapp}. Average (${measureType}): ${TAVG}. Difference is ${percentage}% (${diffText} ${measureType}) compared to ${previousOS}.
+
+*Videos*: [Drive|${Svideos}]
+
+
+
+{panel:title=Target OS (${targetOS})|titleBGColor=#f4b6c2}
+*Build fingerprint:* ${Tfp}
+*HW version:* ${Thw}
+*Track ID:* ${Tid}
+*Logs:* [Bug2gGo|${Tbug2go}] and [Systrace|${Tsystrace}]
+{panel}
+
+{panel:title=Previous OS (${previousOS})|titleBGColor=#83d0c9}
+*Build fingerprint:* ${Sfp}
+*HW version:* ${Shw}
+*Track ID:* ${Sid}
+*Logs:* [Bug2gGo|${Sbug2go}] and [Systrace|${Ssystrace}]
+{panel}
+
+
+Reviewed by *KPI Team*
+`;
+
+        // Output to text area
+        resultTextarea.value = textCR;
+        
+        // Output Summary
+        // Format: [Scenario KPI]Product + Targets OS: Cold Launch Tested App its Percentage Slower than Product + Previous OS
+        let speedWord = diffValue > 0 ? "Slower" : "Faster";
+        let summaryPercentage = SAVG !== 0 ? Math.abs(Math.round(((TAVG / SAVG) * 100) - 100)) : 0;
+        let summaryCR = `[Scenario KPI]${product} ${targetOS}: Cold Launch ${testedapp} its ${summaryPercentage}% ${speedWord} than ${product} ${previousOS}`;
+        summaryTextarea.value = summaryCR;
+        
+        resultSection.classList.remove('hidden');
+        
+        // Optional smooth scroll to result
+        setTimeout(() => {
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }, 100);
+    }
+
+    function copyToClipboard(textareaElem, textId, btnElem) {
+        if (!textareaElem.value) return;
+        
+        // Copy using Clipboard API
+        navigator.clipboard.writeText(textareaElem.value).then(() => {
+            // Visual feedback
+            const copyText = document.getElementById(textId);
+            const originalText = copyText.innerText;
+            
+            copyText.innerText = "Copied!";
+            btnElem.classList.remove('bg-slate-700', 'hover:bg-slate-600');
+            btnElem.classList.add('bg-green-600', 'hover:bg-green-700');
+            
+            setTimeout(() => {
+                copyText.innerText = originalText;
+                btnElem.classList.remove('bg-green-600', 'hover:bg-green-700');
+                btnElem.classList.add('bg-slate-700', 'hover:bg-slate-600');
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            
+            // Fallback for older browsers
+            textareaElem.select();
+            textareaElem.setSelectionRange(0, 99999);
+            try {
+                document.execCommand("copy");
+                const copyText = document.getElementById(textId);
+                const originalText = copyText.innerText;
+                
+                copyText.innerText = "Copied!";
+                btnElem.classList.remove('bg-slate-700', 'hover:bg-slate-600');
+                btnElem.classList.add('bg-green-600', 'hover:bg-green-700');
+                
+                setTimeout(() => {
+                    copyText.innerText = originalText;
+                    btnElem.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    btnElem.classList.add('bg-slate-700', 'hover:bg-slate-600');
+                }, 2000);
+            } catch (ex) {
+                alert("Failed to copy text to clipboard.");
+            }
+        });
+    }
+
+})();
+
+// --- OBS LOGIC ---
+(function() {
+
+    const crForm = document.getElementById('obs_cr-form');
+    const copyBtn = document.getElementById('obs_copy-btn');
+    const resultSection = document.getElementById('obs_result-section');
+    const resultTextarea = document.getElementById('obs_result');
+
+    crForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        generateDescription();
+    });
+
+    copyBtn.addEventListener('click', copyToClipboard);
+
+    function generateDescription() {
+        // Device Information
+        let fp = document.getElementById("obs_fp").value || "N/A";
+        let app = document.getElementById("obs_app").value;
+        let hw = document.getElementById("obs_hw").value || "N/A";
+
+        // Test information
+        let actualResults = document.getElementById("obs_actualResults").value || "N/A";
+        let testSteps = document.getElementById("obs_testSteps").value || "N/A";
+        let expectResults = document.getElementById("obs_expectResults").value || "N/A";
+
+        // Result information
+        let logs = document.getElementById("obs_logs").value || "N/A";
+        let video = document.getElementById("obs_video").value;
+        let information = document.getElementById("obs_information").value || "N/A";
+        
+        let appText = "";
+        let videoText = "";
+        
+        if(app !== "") {
+            appText = `*App Version:* ${app}`;
+        }
+    
+        if(video !== "") {
+            videoText = `*Video:* ${video}`;
+        }
+        
+        // Formatting the CR text
+        let textCR = `{panel:title=Reproducing the issue|titleBGColor=#e6e6ea }
+    
+*Build fingerprint:* ${fp}
+*HW version:* ${hw}
+${appText}
+
+
+{panel}
+
+----
+
+*Steps to reproduce* 
+
+${testSteps}
+
+*Test Step Description* 
+
+${testSteps}
+
+*Actual result* 
+
+${actualResults}
+
+*Expected Result* 
+
+${expectResults}
+
+
+*Reproducibility rate:* (5/5) - 100%
+
+*Logs:* ${logs}
+${videoText}
+
+----
+
+*Additional information:*
+* ${information}
+
+
+Reviewed by *KPI Team*
+`;
+
+        // Output to text area
+        resultTextarea.value = textCR;
+        resultSection.classList.remove('hidden');
+        
+        // Optional smooth scroll to result
+        setTimeout(() => {
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }, 100);
+    }
+
+    function copyToClipboard() {
+        if (!resultTextarea.value) return;
+        
+        // Copy using Clipboard API
+        navigator.clipboard.writeText(resultTextarea.value).then(() => {
+            // Visual feedback
+            const copyText = document.getElementById('obs_copy-text');
+            const originalText = copyText.innerText;
+            
+            copyText.innerText = "Copied!";
+            copyBtn.classList.remove('bg-slate-700', 'hover:bg-slate-600');
+            copyBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+            
+            setTimeout(() => {
+                copyText.innerText = originalText;
+                copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                copyBtn.classList.add('bg-slate-700', 'hover:bg-slate-600');
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            
+            // Fallback for older browsers
+            resultTextarea.select();
+            resultTextarea.setSelectionRange(0, 99999);
+            try {
+                document.execCommand("copy");
+                const copyText = document.getElementById('obs_copy-text');
+                const originalText = copyText.innerText;
+                
+                copyText.innerText = "Copied!";
+                copyBtn.classList.remove('bg-slate-700', 'hover:bg-slate-600');
+                copyBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                
+                setTimeout(() => {
+                    copyText.innerText = originalText;
+                    copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    copyBtn.classList.add('bg-slate-700', 'hover:bg-slate-600');
+                }, 2000);
+            } catch (ex) {
+                alert("Failed to copy description to clipboard.");
+            }
+        });
+    }
+
+})();
+
+// --- COM LOGIC ---
+(function() {
+
+    const crForm = document.getElementById('com_cr-form');
+    const copyBtn = document.getElementById('com_copy-btn');
+    const resultSection = document.getElementById('com_result-section');
+    const resultTextarea = document.getElementById('com_result');
+
+    crForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        generateDescription();
+    });
+
+    copyBtn.addEventListener('click', copyToClipboard);
+
+    function generateDescription() {
+        // Form inputs
+        const isTable = document.getElementById('com_typeTable').checked;
+        const buildNumber = document.getElementById('com_buildNumber').value.trim();
+        const buildFingerprint = document.getElementById('com_buildFingerprint').value.trim();
+        const results = document.getElementById('com_results').value.trim();
+        const avg = document.getElementById('com_avg').value.trim();
+
+        // Link inputs
+        const bug2go = document.getElementById('com_bug2go').value.trim();
+        const systrace = document.getElementById('com_systrace').value.trim();
+        const logsScript = document.getElementById('com_logsScript').value.trim();
+        const video = document.getElementById('com_video').value.trim();
+
+        // Process Links
+        let logsLinks = [];
+        if (bug2go) logsLinks.push(`[Bug2Go|${bug2go}]`);
+        if (systrace) logsLinks.push(`[Systrace|${systrace}]`);
+        if (logsScript) logsLinks.push(`[Logs from Script|${logsScript}]`);
+
+        let logsString = logsLinks.length > 0 ? logsLinks.join(', ') : "N/A";
+        let videoStr = video ? `[Video|${video}]` : "N/A";
+
+        let finalOutput = "";
+
+        if (isTable) {
+            // Table formatting
+            finalOutput = `||Build Number||Results||AVG||Video||Logs||
+|${buildNumber}|${results}|${avg}|${videoStr}|${logsString}|
+
+{color:red}*To avoid multiple comments, if the issue is still reproducible, please add the results to this table.*{/color}`;
+        } else {
+            // Single formatting
+            let singleLogsStr = logsLinks.length > 0 ? `\n*Logs:* ${logsString}` : "";
+            let singleVideoStr = video ? `\n*Video:* ${videoStr}` : "";
+
+            finalOutput = `Hi all, this issue is *still reproducible* in ${buildNumber} build, here are the results.
+
+*Build Fingerprint:* ${buildFingerprint}
+*Results:* ${results}
+*AVG:* ${avg}${singleLogsStr}${singleVideoStr}`;
+        }
+
+        // Output to text area
+        resultTextarea.value = finalOutput;
+        resultSection.classList.remove('hidden');
+
+        // Optional smooth scroll to result
+        setTimeout(() => {
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }, 100);
+    }
+
+    function copyToClipboard() {
+        if (!resultTextarea.value) return;
+
+        // Copy using Clipboard API
+        navigator.clipboard.writeText(resultTextarea.value).then(() => {
+            // Visual feedback
+            const copyText = document.getElementById('com_copy-text');
+            const originalText = copyText.innerText;
+
+            copyText.innerText = "Copied!";
+            copyBtn.classList.remove('bg-slate-700', 'hover:bg-slate-600');
+            copyBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+
+            setTimeout(() => {
+                copyText.innerText = originalText;
+                copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                copyBtn.classList.add('bg-slate-700', 'hover:bg-slate-600');
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+
+            // Fallback for older browsers
+            resultTextarea.select();
+            resultTextarea.setSelectionRange(0, 99999);
+            try {
+                document.execCommand("copy");
+                const copyText = document.getElementById('com_copy-text');
+                const originalText = copyText.innerText;
+
+                copyText.innerText = "Copied!";
+                copyBtn.classList.remove('bg-slate-700', 'hover:bg-slate-600');
+                copyBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+
+                setTimeout(() => {
+                    copyText.innerText = originalText;
+                    copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    copyBtn.classList.add('bg-slate-700', 'hover:bg-slate-600');
+                }, 2000);
+            } catch (ex) {
+                alert("Failed to copy comment to clipboard.");
+            }
+        });
+    }
+
+})();
+
+
+    // Tab switching logic
+    const tabs = document.querySelectorAll('.tab-btn');
+    const views = document.querySelectorAll('.spa-view');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Remove active classes
+            tabs.forEach(t => {
+                t.classList.remove('text-white', 'bg-blue-600', 'shadow', 'border-blue-500', 'hover:bg-blue-700');
+                t.classList.add('text-slate-400', 'border-slate-700', 'hover:bg-slate-800', 'hover:text-white');
+            });
+            
+            // Add active classes to clicked
+            tab.classList.remove('text-slate-400', 'border-slate-700', 'hover:bg-slate-800', 'hover:text-white');
+            tab.classList.add('text-white', 'bg-blue-600', 'shadow', 'border-blue-500', 'hover:bg-blue-700');
+            
+            // Hide all views
+            views.forEach(v => v.style.display = 'none');
+            
+            // Show target view
+            const targetId = tab.getAttribute('data-target');
+            document.getElementById(targetId).style.display = 'block';
+        });
+    });
+});
+
+</script>
+</body>
+</html>
